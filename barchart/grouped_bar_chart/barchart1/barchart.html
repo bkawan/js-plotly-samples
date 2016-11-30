@@ -1,0 +1,228 @@
+<head>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<style>
+    .index{
+        padding-right: 10px
+    }
+</style>
+<body>
+
+<!--<div id="myDiv" style="width: 480px; height: 400px;">&lt;!&ndash; Plotly chart will be drawn inside this DIV &ndash;&gt;</div>-->
+
+<div class="container" style="margin-top: 50px">
+    <div class="row" id="hDiv" style="width: 600px; height: 500px;display: none"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div class="row" id="vDiv" style="width: 600px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+
+    <div style="padding-top: 50px; padding-left: 50px">
+        <i class="fa fa-circle index" aria-hidden="true" style="color: rgb(56, 147, 115)"></i>2012
+        <i class="fa fa-circle index" aria-hidden="true" style="color: red;"></i>2013
+        <i class="fa fa-circle index" aria-hidden="true" style="color: orange"></i>2014
+        <i class="fa fa-circle index" aria-hidden="true" style="color: cornflowerblue"></i>2015
+    </div>
+    <div>
+        <hr>
+        <h4>Chose Orientation</h4>
+        <label><input type="radio" name="colorRadio" value="horizontal"> horizontal</label>
+        <label><input type="radio" name="colorRadio" value="vertical"> vertical</label>
+    </div>
+</div>
+
+<script>
+    <!-- JAVASCRIPT CODE GOES HERE -->
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        function splitValue(value, index) {
+            return value.substring(0, index);
+        }
+
+        // Plot for 1 % Impact  //
+        Plotly.d3.json("data.json", function (data) {
+            var countries = [];
+            var year_12 = [];
+            var year_13 = [];
+            var year_14 = [];
+            var year_15 = [];
+            var bargraph = [];
+            data.forEach(function (d, i) {
+                countries.push(d.Country);
+                year_12.push(d['2012']);
+                year_13.push(d['2013']);
+                year_14.push(d['2014']);
+                year_15.push(d['2015']);
+
+
+            });
+
+
+
+
+            var vdata = [{
+                x: countries,
+                y: year_12,
+                marker: {
+                    color: "rgb(56, 147, 115)"
+                },
+                name: "2012",
+                type: "bar"
+
+            }, {
+                y: year_13,
+                x: countries,
+                marker: {
+                    color: "red"
+                },
+                name: "2013",
+                type: 'bar'
+
+            }, {
+                y: year_14,
+                x: countries,
+
+                marker: {
+                    color: "orange"
+                },
+                name: "2014",
+                type: 'bar'
+
+            }, {
+                y: year_15,
+                x: countries,
+                marker: {
+                    color: "cornflowerblue"
+                },
+                name: "2015",
+                type: 'bar'
+
+            }
+            ];
+
+            var hdata = [{
+                y: countries,
+                x: year_12,
+                marker: {
+                    color: "rgb(56, 147, 115)"
+                },
+                name: "2012",
+                type: "bar",
+                orientation:"h"
+
+            }, {
+                x: year_13,
+                y: countries,
+                marker: {
+                    color: "red"
+                },
+                name: "2013",
+                type: 'bar',
+                orientation:"h"
+
+
+            }, {
+                x: year_14,
+                y: countries,
+
+                marker: {
+                    color: "orange"
+                },
+                name: "2014",
+                type: 'bar',
+                orientation:"h"
+
+
+            }, {
+                x: year_15,
+                y: countries,
+                marker: {
+                    color: "cornflowerblue"
+                },
+                name: "2015",
+                type: 'bar',
+                orientation:"h",
+
+
+            }
+            ];
+
+
+
+
+            var vlayout = {
+                showlegend:false,
+                barmode: 'group',
+                bargap: 0.5,
+                bargroupgap: 0.3,
+                title: '% 15-25 not in employment or training (NEETS)',
+                yaxis: {
+                    title: "%"
+                },
+                xaxis:{
+                    title:"Tara"
+                }
+
+
+
+            };
+            var hlayout = {
+                showlegend:false,
+                barmode: 'group',
+                bargap: 0.5,
+                bargroupgap: 0.3,
+                title: '% 15-25 not in employment or training (NEETS)',
+                xaxis: {
+                    title: "%"
+                },
+                yaxis:{
+                    title:"Tara"
+                }
+
+
+            };
+
+
+            $('input[type="radio"]').click(function(){
+                if($(this).attr("value")=="horizontal"){
+
+                    $("#hDiv").show();
+                    $("#vDiv").hide();
+
+                }
+                if($(this).attr("value")=="vertical"){
+                    $("#hDiv").hide();
+                    $("#vDiv").show();
+
+
+                }
+
+            });
+
+
+            Plotly.newPlot('hDiv', hdata, hlayout);
+//
+            Plotly.newPlot('vDiv', vdata, vlayout);
+
+
+
+
+
+
+
+
+
+
+        });
+    });
+</script>
+</body>
